@@ -13,8 +13,8 @@ Este proyecto consiste en una galería interactiva desarrollada con HTML, CSS y 
 
 ## Capturas de pantalla
 
-![](capturas/captura_1.png)
-![](capturas/captura_2.png)
-![](capturas/captura_3.png)
-![](capturas/captura_4.png)
-![](capturas/captura_5.png)
+![](capturas\captura_1.png)
+![](capturas\captura_2.png)
+![](capturas\captura_3.png)
+![](capturas\captura_4.png)
+![](capturas\captura_5.png)
