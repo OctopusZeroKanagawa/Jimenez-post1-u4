@@ -9,6 +9,7 @@ const leerCampo = (selector) => {
 };
 const galeria = document.querySelector("#galeria");
 
+//Crear tarjeta
 function crearElementoTarjeta({ id, titulo, descripcion, categoria }) {
   const tarjeta = document.createElement("article");
   tarjeta.classList.add("tarjeta", `categoria-${categoria}`);
@@ -34,19 +35,21 @@ function agregarTarjeta() {
   tarjetas.push(nuevaTarjeta);
   const elemento = crearElementoTarjeta(nuevaTarjeta);
   galeria.appendChild(elemento);
+  actualizarContador();
 }
 document
   .querySelector("#btn-agregar")
   .addEventListener("click", agregarTarjeta);
-
+//Eliminar tarjeta
 galeria.addEventListener("click", (e) => {
   if (!e.target.matches(".btn-eliminar")) return;
   const idEliminar = Number(e.target.dataset.id);
   tarjetas = tarjetas.filter((t) => t.id !== idEliminar);
   const elementoTarjeta = galeria.querySelector(`[data-id="${idEliminar}"]`);
   if (elementoTarjeta) elementoTarjeta.remove();
+  actualizarContador();
 });
-
+//Filtrar tarjetas
 const btnsFiltro = document.querySelectorAll(".btn-filtro");
 btnsFiltro.forEach((btn) => {
   btn.addEventListener("click", () => {
@@ -64,5 +67,36 @@ btnsFiltro.forEach((btn) => {
         tarjeta.classList.toggle("oculta", !coincide);
       }
     });
+    actualizarContador();
   });
 });
+
+function actualizarContador() {
+  const visibles = galeria.querySelectorAll(".tarjeta:not(.oculta)").length;
+
+  let contador = document.querySelector("#contador");
+  if (!contador) {
+    contador = document.createElement("p");
+    contador.id = "contador";
+    document
+      .querySelector("#filtros")
+      .insertAdjacentElement("afterend", contador);
+  }
+
+  contador.textContent = `Mostrando ${visibles} tarjeta(s)`;
+
+  const total = galeria.querySelectorAll(".tarjeta").length;
+  let mensaje = galeria.querySelector(".mensaje-vacio");
+
+  if (total === 0) {
+    if (!mensaje) {
+      mensaje = document.createElement("p");
+      mensaje.className = "mensaje-vacio";
+      mensaje.textContent =
+        "No hay tarjetas. Crea la primera usando el formulario.";
+      galeria.appendChild(mensaje);
+    }
+  } else {
+    if (mensaje) mensaje.remove();
+  }
+}
